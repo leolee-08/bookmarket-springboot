@@ -1,0 +1,13 @@
+# ✅ Maven 빌드 결과물 (컴파일된 파일들)
+target/
+
+# ✅ IntelliJ 설정 파일
+.idea/
+*.iml
+
+# ✅ 로그 파일
+*.log
+logs/
+
+# ✅ DB 비밀번호 등 민감정보가 담긴 파일
+src/main/resources/application.properties

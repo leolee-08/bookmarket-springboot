@@ -1,0 +1,81 @@
+/* ===== 기본 리셋 ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: '맑은 고딕', Arial, sans-serif; background: #f5f5f5; color: #333; }
+a { text-decoration: none; color: inherit; }
+
+/* ===== 메뉴바 (기존 Swing 메뉴바 → 웹 네비게이션) ===== */
+.navbar {
+    background: #2c3e50;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    height: 55px;
+    gap: 20px;
+}
+.nav-brand a { color: #fff; font-size: 1.3rem; font-weight: bold; }
+.nav-menu { display: flex; list-style: none; gap: 5px; flex: 1; }
+.nav-menu a {
+    color: #ccc;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+.nav-menu a:hover, .nav-menu a.active { background: #3498db; color: #fff; }
+.nav-user { color: #ccc; font-size: 0.85rem; display: flex; gap: 10px; align-items: center; }
+.nav-user a { color: #aaa; }
+.nav-user a:hover { color: #fff; }
+
+/* ===== 컨테이너 ===== */
+.container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+h2 { margin-bottom: 20px; color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 8px; }
+
+/* ===== 검색 ===== */
+.search-form { display: flex; gap: 8px; margin-bottom: 20px; }
+.search-form input { flex: 1; padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; }
+.search-form button { padding: 8px 16px; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; }
+
+/* ===== 테이블 (기존 Swing 테이블 구조 동일) ===== */
+.book-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.book-table th { background: #2c3e50; color: white; padding: 12px; text-align: center; font-size: 0.9rem; }
+.book-table td { padding: 10px 12px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.88rem; }
+.book-table tr:hover { background: #f8f9fa; }
+.book-table tfoot td { background: #f0f0f0; font-weight: bold; padding: 12px; }
+
+/* ===== 버튼 ===== */
+.btn-primary { background: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.95rem; }
+.btn-primary:hover { background: #2980b9; }
+.btn-cart { background: #27ae60; color: white; padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer; font-size: 0.8rem; }
+.btn-cart:hover { background: #219a52; }
+.btn-danger { background: #e74c3c; color: white; padding: 5px 10px; border: none; border-radius: 3px; cursor: pointer; font-size: 0.8rem; }
+.btn-danger:hover { background: #c0392b; }
+
+/* ===== 로그인 ===== */
+.login-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+.login-box { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); width: 400px; }
+.login-box h2 { text-align: center; margin-bottom: 24px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 0.9rem; color: #555; }
+.form-group input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem; }
+.login-links { text-align: center; margin-top: 16px; font-size: 0.9rem; }
+.login-links a { color: #3498db; }
+.social-login { margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; }
+.social-login p { color: #888; font-size: 0.85rem; margin-bottom: 10px; }
+.btn-google, .btn-naver { display: block; padding: 10px; margin: 6px 0; border-radius: 4px; font-size: 0.9rem; }
+.btn-google { background: #fff; border: 1px solid #ddd; color: #333; }
+.btn-naver { background: #03c75a; color: white; }
+
+/* ===== 알림 ===== */
+.alert-error { background: #fdecea; color: #c0392b; padding: 10px; border-radius: 4px; margin-bottom: 16px; font-size: 0.9rem; }
+.alert-success { background: #eafaf1; color: #27ae60; padding: 10px; border-radius: 4px; margin-bottom: 16px; font-size: 0.9rem; }
+.empty-msg { text-align: center; padding: 40px; color: #888; }
+.empty-msg a { color: #3498db; }
+
+/* ===== 주문 ===== */
+.order-card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.order-header { display: flex; gap: 24px; margin-bottom: 12px; font-size: 0.9rem; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+.order-info { margin-bottom: 12px; font-size: 0.9rem; color: #555; }
+.order-total { text-align: right; margin-top: 12px; font-size: 1rem; }
+
+/* ===== 장바구니 수량 ===== */
+.cart-actions { margin-top: 24px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }

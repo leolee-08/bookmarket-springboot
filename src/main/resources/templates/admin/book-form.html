@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <meta charset="UTF-8">
+  <title>북마켓 - 도서 등록/수정</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-brand"><a th:href="@{/books}">📚 북마켓</a></div>
+  <ul class="nav-menu">
+    <li><a th:href="@{/books}">상품</a></li>
+    <li><a th:href="@{/admin}" class="active">관리자</a></li>
+  </ul>
+  <div class="nav-user">
+    <span sec:authentication="name"></span>님
+    <form th:action="@{/member/logout}" method="post" style="display:inline">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+      <button type="submit"
+              style="background:none; border:none; color:#aaa; cursor:pointer;">
+        로그아웃
+      </button>
+    </form>
+  </div>
+</nav>
+
+<div class="container">
+  <h2 th:text="${book.bookId == null} ? '📖 도서 등록' : '📖 도서 수정'"></h2>
+
+  <div class="order-card">
+    <form th:action="@{/books/admin/save}" method="post">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+      <input type="hidden" name="bookId" th:value="${book.bookId}">
+
+      <div class="form-group">
+        <label>ISBN</label>
+        <input type="text" name="isbn" th:value="${book.isbn}"
+               placeholder="예) ISBN1240" required>
+      </div>
+      <div class="form-group">
+        <label>도서명</label>
+        <input type="text" name="title" th:value="${book.title}"
+               placeholder="도서명 입력" required>
+      </div>
+      <div class="form-group">
+        <label>가격</label>
+        <input type="number" name="price" th:value="${book.price}"
+               placeholder="예) 25000" required>
+      </div>
+      <div class="form-group">
+        <label>저자</label>
+        <input type="text" name="author" th:value="${book.author}"
+               placeholder="저자명 입력">
+      </div>
+      <div class="form-group">
+        <label>설명</label>
+        <input type="text" name="description" th:value="${book.description}"
+               placeholder="도서 설명 입력">
+      </div>
+      <div class="form-group">
+        <label>카테고리</label>
+        <select name="category">
+          <option value="IT전문서"
+                  th:selected="${book.category == 'IT전문서'}">IT전문서</option>
+          <option value="컴퓨터입문"
+                  th:selected="${book.category == '컴퓨터입문'}">컴퓨터입문</option>
+          <option value="자격증"
+                  th:selected="${book.category == '자격증'}">자격증</option>
+          <option value="기타"
+                  th:selected="${book.category == '기타'}">기타</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>출판일</label>
+        <input type="text" name="releaseDate" th:value="${book.releaseDate}"
+               placeholder="예) 2024/01/01">
+      </div>
+      <div class="form-group">
+        <label>재고</label>
+        <input type="number" name="stock"
+               th:value="${book.stock != 0} ? ${book.stock} : 100">
+      </div>
+
+      <div style="display:flex; gap:10px; margin-top:20px;">
+        <button type="submit" class="btn-primary">저장</button>
+        <a th:href="@{/admin}" class="btn-cart">취소</a>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

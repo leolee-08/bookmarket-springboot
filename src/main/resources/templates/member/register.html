@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>북마켓 - 회원가입</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-box">
+        <h2>📚 회원가입</h2>
+
+        <div th:if="${errorMsg}" class="alert-error" th:text="${errorMsg}"></div>
+
+        <!-- 기존 Swing GuestInfoPage 역할 (이름, 연락처, 주소) + 이메일/비밀번호 추가 -->
+        <form th:action="@{/member/register}" method="post">
+            <div class="form-group">
+                <label>이름</label>
+                <input type="text" name="name" placeholder="이름 입력" required>
+            </div>
+            <div class="form-group">
+                <label>이메일</label>
+                <input type="email" name="email" placeholder="이메일 입력" required>
+            </div>
+            <div class="form-group">
+                <label>비밀번호</label>
+                <input type="password" name="password" placeholder="비밀번호 입력" required>
+            </div>
+            <div class="form-group">
+                <label>연락처</label>
+                <input type="text" name="phone" placeholder="010-0000-0000">
+            </div>
+            <div class="form-group">
+                <label>주소</label>
+                <input type="text" name="address" placeholder="주소 입력">
+            </div>
+            <button type="submit" class="btn-primary">회원가입</button>
+        </form>
+
+        <div class="login-links">
+            <a th:href="@{/member/login}">로그인으로 돌아가기</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
