@@ -1,16 +1,20 @@
 package com.market.member;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/member")
-@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     // 로그인 페이지
     @GetMapping("/login")
@@ -25,6 +29,13 @@ public class UserController {
     @GetMapping("/register")
     public String registerPage() {
         return "member/register";
+    }
+
+    // 고객 정보 확인
+    @GetMapping("/profile")
+    public String profile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        model.addAttribute("user", userService.findByEmail(userDetails.getUsername()));
+        return "member/profile";
     }
 
     // 회원가입 처리

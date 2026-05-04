@@ -1,6 +1,5 @@
 package com.market.cart;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -9,10 +8,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/cart")
-@RequiredArgsConstructor
 public class CartController {
 
     private final CartService cartService;
+
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
+    }
 
     // 장바구니 목록 - 기존 CartItemListPage 역할
     @GetMapping
@@ -43,6 +45,13 @@ public class CartController {
     @PostMapping("/remove/{cartItemId}")
     public String removeItem(@PathVariable Long cartItemId) {
         cartService.removeItem(cartItemId);
+        return "redirect:/cart";
+    }
+
+    // 전체 비우기
+    @PostMapping("/clear")
+    public String clearCart(@AuthenticationPrincipal UserDetails userDetails) {
+        cartService.clearCart(userDetails.getUsername());
         return "redirect:/cart";
     }
 }

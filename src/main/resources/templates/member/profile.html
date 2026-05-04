@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>북마켓 - 고객 정보</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/navbar :: navbar('customer')}"></div>
+
+<div class="container">
+    <h2>고객 정보</h2>
+
+    <table class="book-table">
+        <tbody>
+        <tr>
+            <th>이메일</th>
+            <td th:text="${user.email}"></td>
+        </tr>
+        <tr>
+            <th>이름</th>
+            <td th:text="${user.name}"></td>
+        </tr>
+        <tr>
+            <th>전화번호</th>
+            <td th:text="${user.phone}"></td>
+        </tr>
+        <tr>
+            <th>주소</th>
+            <td th:text="${user.address}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
