@@ -20,7 +20,7 @@ public class BookService {
                 .orElseThrow(() -> new IllegalArgumentException("도서를 찾을 수 없습니다."));
     }
 
-    public List<Book> search(String keyword) {
+    public List<Book> search(String keyword)  { // 제목 키워드로 도서 검색
         return bookRepository.findByTitleContaining(keyword);
     }
 
