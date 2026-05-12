@@ -29,6 +29,10 @@ public class BookService {
     }
 
     public void delete(Long id) {
+        // 삭제 전 도서 존재 여부 확인
+        if (!bookRepository.existsById(id)) {
+            throw new IllegalArgumentException("존재하지 않는 도서입니다.");
+        }
         bookRepository.deleteById(id);
     }
 }
