@@ -63,6 +63,10 @@ public class CartService {
         if (quantity <= 0) {
             cartItemRepository.delete(item);
         } else {
+            // 재고 초과 체크 추가
+            if (quantity > item.getBook().getStock()) {
+                throw new IllegalStateException("재고 수량을 초과했습니다.");
+            }
             item.setQuantity(quantity);
         }
     }
