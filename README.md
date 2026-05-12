@@ -17,3 +17,15 @@ Spring Boot 기반 도서 쇼핑몰 프로젝트입니다.
 - Frontend: Thymeleaf, jQuery
 - Database: H2 Database (In-Memory)
 - 형상관리: GitHub
+
+## 실행 방법
+1. git clone https://github.com/[팀장ID]/bookmarket-springboot.git
+2. src/main/resources/application.properties 설정
+3. BookMarketApplication.java 우클릭 → Run
+4. http://localhost:8080 접속
+
+## H2 Console 접속
+- URL: http://localhost:8080/h2-console
+- JDBC URL: jdbc:h2:mem:bookmarket_db
+- username: sa
+- password: (공백)
