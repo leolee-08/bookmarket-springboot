@@ -81,8 +81,7 @@ public class CartService {
     @Transactional
     public void clearCart(String email) {
         Cart cart = getOrCreateCart(email);
+        // 장바구니 전체 항목 삭제
         cart.getCartItems().clear();
-
-
     }
 }
