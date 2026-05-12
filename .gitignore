@@ -9,5 +9,3 @@ target/
 *.log
 logs/
 
-# ✅ DB 비밀번호 등 민감정보가 담긴 파일
-src/main/resources/application.properties
