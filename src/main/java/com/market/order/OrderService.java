@@ -61,6 +61,7 @@ public class OrderService {
     }
 
     public Order findById(Long orderId) {
+        // 주문 ID로 단건 조회, 없으면 예외 발생
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("주문 없음"));
     }
