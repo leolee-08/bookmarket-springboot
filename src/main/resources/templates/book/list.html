@@ -8,51 +8,49 @@
 </head>
 <body>
 
-<!-- 메뉴바 -->
 <div th:replace="~{fragments/navbar :: navbar('books')}"></div>
 
 <div class="container">
     <h2>도서 목록</h2>
 
-    <!-- 검색 -->
     <form th:action="@{/books}" method="get" class="search-form">
         <input type="text" name="keyword" th:value="${keyword}" placeholder="도서명 검색">
         <button type="submit">검색</button>
     </form>
 
-    <!-- 도서 목록 테이블 (기존 Swing 테이블 구조 동일) -->
     <table class="book-table">
         <thead>
-            <tr>
-                <th>ISBN</th>
-                <th>도서명</th>
-                <th>가격</th>
-                <th>저자</th>
-                <th>카테고리</th>
-                <th>출판일</th>
-                <th>기능</th>
-            </tr>
+        <tr>
+            <th>ISBN</th>
+            <th>도서명</th>
+            <th>가격</th>
+            <th>저자</th>
+            <th>카테고리</th>
+            <th>출판일</th>
+            <th>기능</th>
+        </tr>
         </thead>
         <tbody>
-            <tr th:each="book : ${books}">
-                <td th:text="${book.isbn}"></td>
-                <td>
-                    <a th:href="@{/books/{id}(id=${book.bookId})}"
-                       th:text="${book.title}"></a>
-                </td>
-                <td th:text="${#numbers.formatInteger(book.price, 0, 'COMMA') + '원'}"></td>
-                <td th:text="${book.author}"></td>
-                <td th:text="${book.category}"></td>
-                <td th:text="${book.releaseDate}"></td><td>
-                <form th:action="@{/cart/add/{id}(id=${book.bookId})}" method="post">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                    <button type="submit" class="btn-cart"
-                            th:onclick="${#authorization.expression('isAuthenticated()')} ? null : 'location.href=\'/member/login\'; return false;'">
-                        장바구니
-                    </button>
-                </form>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.isbn}"></td>
+            <td>
+                <a th:href="@{/books/{id}(id=${book.bookId})}"
+                   th:text="${book.title}"></a>
             </td>
-            </tr>
+            <td th:text="${#numbers.formatInteger(book.price, 0, 'COMMA') + '원'}"></td>
+            <td th:text="${book.author}"></td>
+            <td th:text="${book.category}"></td>
+            <td th:text="${book.releaseDate}"></td>
+            <td>
+                <button class="btn-cart"
+                        th:data-book-id="${book.bookId}"
+                        th:data-csrf="${_csrf.token}"
+                        th:data-csrf-header="${_csrf.headerName}"
+                        onclick="addToCart(this)">
+                    장바구니
+                </button>
+            </td>
+        </tr>
         </tbody>
     </table>
 
@@ -60,6 +58,39 @@
         검색 결과가 없습니다.
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    function addToCart(btn) {
+        const bookId = $(btn).data('book-id');
+        const token  = $(btn).data('csrf');
+        const header = $(btn).data('csrf-header');
+
+        if (!token) {
+            location.href = '/member/login';
+            return;
+        }
+
+        $.ajax({
+            url: '/cart/add/' + bookId + '/ajax',
+            type: 'POST',
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            data: { quantity: 1 },
+            success: function() {
+                const original = $(btn).text();
+                $(btn).text('✔ 담김').prop('disabled', true);
+                setTimeout(() => {
+                    $(btn).text(original).prop('disabled', false);
+                }, 1500);
+            },
+            error: function() {
+                alert('장바구니 추가에 실패했습니다.');
+            }
+        });
+    }
+</script>
 
 </body>
 </html>
