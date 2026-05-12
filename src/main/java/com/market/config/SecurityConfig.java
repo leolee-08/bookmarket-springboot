@@ -30,7 +30,9 @@ public class SecurityConfig {
                         .requestMatchers("/", "/books", "/books/**",
                                 "/member/login", "/member/register",
                                 "/css/**", "/js/**", "/images/**",
-                                "/h2-console/**").permitAll()
+                                "/h2-console/**",
+                                "/oauth2/authorization/**",
+                                "/login/oauth2/code/**").permitAll()
                         // 관리자만
                         .requestMatchers("/admin/**", "/books/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
