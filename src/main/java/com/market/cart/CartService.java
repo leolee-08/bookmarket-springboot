@@ -63,6 +63,10 @@ public class CartService {
         if (quantity <= 0) {
             cartItemRepository.delete(item);
         } else {
+            // 재고 초과 체크 추가
+            if (quantity > item.getBook().getStock()) {
+                throw new IllegalStateException("재고 수량을 초과했습니다.");
+            }
             item.setQuantity(quantity);
         }
     }
@@ -77,8 +81,7 @@ public class CartService {
     @Transactional
     public void clearCart(String email) {
         Cart cart = getOrCreateCart(email);
+        // 장바구니 전체 항목 삭제
         cart.getCartItems().clear();
-
-
     }
 }
