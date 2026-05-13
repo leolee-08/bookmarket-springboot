@@ -54,12 +54,14 @@ public class OrderService {
 
     // 내 주문 목록 조회 - 기존 CartOrderBillPage 역할
     public List<Order> getMyOrders(String email) {
+        // 최신 주문 순으로 목록 조회
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("회원 없음"));
         return orderRepository.findByUserOrderByOrderDateDesc(user);
     }
 
     public Order findById(Long orderId) {
+        // 주문 ID로 단건 조회, 없으면 예외 발생
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("주문 없음"));
     }
