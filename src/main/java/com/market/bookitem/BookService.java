@@ -20,7 +20,7 @@ public class BookService {
                 .orElseThrow(() -> new IllegalArgumentException("도서를 찾을 수 없습니다."));
     }
 
-    public List<Book> search(String keyword) {
+    public List<Book> search(String keyword)  { // 제목 키워드로 도서 검색
         return bookRepository.findByTitleContaining(keyword);
     }
 
@@ -29,6 +29,10 @@ public class BookService {
     }
 
     public void delete(Long id) {
+        // 삭제 전 도서 존재 여부 확인
+        if (!bookRepository.existsById(id)) {
+            throw new IllegalArgumentException("존재하지 않는 도서입니다.");
+        }
         bookRepository.deleteById(id);
     }
 }
