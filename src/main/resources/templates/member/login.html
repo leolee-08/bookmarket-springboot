@@ -11,8 +11,18 @@
     <div class="login-box">
         <h2>📚 북마켓 로그인</h2>
 
-        <!-- 에러 메시지 -->
-        <div th:if="${errorMsg}" class="alert-error" th:text="${errorMsg}"></div>
+        <!-- OAuth2 소셜 로그인 에러 (우선순위 1순위) -->
+        <div th:if="${param.oauth2Error != null}"
+             th:text="${param.oauth2Error[0]}"
+             class="alert-error">
+        </div>
+
+        <!-- 자체 로그인 에러 (oauth2Error 없을 때만) -->
+        <div th:if="${param.error != null and param.oauth2Error == null}"
+             class="alert-error">
+            이메일 또는 비밀번호가 올바르지 않습니다.
+        </div>
+
         <!-- 회원가입 완료 메시지 -->
         <div th:if="${param.registered}" class="alert-success">
             회원가입이 완료되었습니다. 로그인해주세요.
@@ -22,11 +32,13 @@
         <form th:action="@{/member/login}" method="post">
             <div class="form-group">
                 <label>이메일</label>
-                <input type="email" name="username" placeholder="이메일 입력" required>
+                <input type="email" name="username"
+                       placeholder="이메일 입력" required>
             </div>
             <div class="form-group">
                 <label>비밀번호</label>
-                <input type="password" name="password" placeholder="비밀번호 입력" required>
+                <input type="password" name="password"
+                       placeholder="비밀번호 입력" required>
             </div>
             <button type="submit" class="btn-primary">로그인</button>
         </form>
@@ -37,8 +49,10 @@
 
         <div class="social-login">
             <p>소셜 로그인</p>
-            <a th:href="@{/oauth2/authorization/google}" class="btn-google">Google 로그인</a>
-            <a th:href="@{/oauth2/authorization/naver}" class="btn-naver">Naver 로그인</a>
+            <a th:href="@{/oauth2/authorization/google}"
+               class="btn-google">Google 로그인</a>
+            <a th:href="@{/oauth2/authorization/naver}"
+               class="btn-naver">Naver 로그인</a>
         </div>
     </div>
 </div>

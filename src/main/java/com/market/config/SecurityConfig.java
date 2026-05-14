@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService oAuth2UserService;
+    private final OAuth2FailureHandler oAuth2FailureHandler;
 
     @Bean
     public AuthenticationManager authenticationManager(
@@ -47,7 +48,7 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/member/login")
                         .defaultSuccessUrl("/books", true)
-                        .failureUrl("/member/login?error=true")
+                        .failureHandler(oAuth2FailureHandler)
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(oAuth2UserService)
                         )

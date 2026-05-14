@@ -13,6 +13,11 @@
 <div class="container">
     <h2>🛒 장바구니</h2>
 
+    <!-- 재고 초과 에러 메시지 -->
+    <div th:if="${errorMsg}" class="alert-error"
+         th:text="${errorMsg}">
+    </div>
+
     <div th:if="${cart.cartItems.isEmpty()}" class="empty-msg">
         장바구니가 비어있습니다. <a th:href="@{/books}">도서 보러가기</a>
     </div>

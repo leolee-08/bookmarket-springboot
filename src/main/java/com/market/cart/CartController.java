@@ -1,13 +1,14 @@
 package com.market.cart;
 
-import org.springframework.http.ResponseEntity;  // 추가
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Map;  // 추가
+import java.util.Map;
 
 @Controller
 @RequestMapping("/cart")
@@ -21,7 +22,8 @@ public class CartController {
 
     // 장바구니 목록
     @GetMapping
-    public String cartList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String cartList(@AuthenticationPrincipal UserDetails userDetails,
+                           Model model) {
         Cart cart = cartService.getOrCreateCart(userDetails.getUsername());
         model.addAttribute("cart", cart);
         return "cart/list";
@@ -31,26 +33,43 @@ public class CartController {
     @PostMapping("/add/{bookId}")
     public String addBook(@PathVariable Long bookId,
                           @RequestParam(defaultValue = "1") int quantity,
-                          @AuthenticationPrincipal UserDetails userDetails) {
-        cartService.addBook(userDetails.getUsername(), bookId, quantity);
+                          @AuthenticationPrincipal UserDetails userDetails,
+                          RedirectAttributes redirectAttributes) {
+        try {
+            cartService.addBook(userDetails.getUsername(), bookId, quantity);
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("errorMsg", e.getMessage());
+        }
         return "redirect:/cart";
     }
 
-    // ✅ 도서 추가 (Ajax - 페이지 이동 없음) ← 이것만 추가
+    // 도서 추가 (Ajax)
     @PostMapping("/add/{bookId}/ajax")
     @ResponseBody
-    public ResponseEntity<?> addBookAjax(@PathVariable Long bookId,
-                                         @RequestParam(defaultValue = "1") int quantity,
-                                         @AuthenticationPrincipal UserDetails userDetails) {
-        cartService.addBook(userDetails.getUsername(), bookId, quantity);
-        return ResponseEntity.ok(Map.of("success", true, "message", "장바구니에 담았습니다."));
+    public ResponseEntity<?> addBookAjax(
+            @PathVariable Long bookId,
+            @RequestParam(defaultValue = "1") int quantity,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        try {
+            cartService.addBook(userDetails.getUsername(), bookId, quantity);
+            return ResponseEntity.ok(
+                    Map.of("success", true, "message", "장바구니에 담았습니다."));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("success", false, "message", e.getMessage()));
+        }
     }
 
-    // 수량 변경
+    // 수량 변경 ← 여기가 핵심 수정!
     @PostMapping("/update/{cartItemId}")
     public String updateQuantity(@PathVariable Long cartItemId,
-                                 @RequestParam int quantity) {
-        cartService.updateQuantity(cartItemId, quantity);
+                                 @RequestParam int quantity,
+                                 RedirectAttributes redirectAttributes) {
+        try {
+            cartService.updateQuantity(cartItemId, quantity);
+        } catch (IllegalStateException e) {
+            redirectAttributes.addFlashAttribute("errorMsg", e.getMessage());
+        }
         return "redirect:/cart";
     }
 
