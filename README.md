@@ -6,6 +6,26 @@ Spring Boot 기반 도서 쇼핑몰 프로젝트입니다.
 ## 🚀 배포 URL
 https://bookmarket-springboot-production.up.railway.app
 
+> 💡 별도 설치 없이 위 URL로 바로 접속 가능합니다!
+
+## ☁️ 클라우드 배포 (Railway)
+본 프로젝트는 Railway 클라우드 환경에 배포되어
+누구나 어디서든 접속 가능합니다.
+
+### 배포 방식
+- GitHub main 브랜치 Push 시 자동 배포
+- 별도 서버 구축 없이 클라우드 환경 구성
+- PC / 모바일 어디서든 접속 가능
+
+### 배포 환경
+| 항목 | 내용 |
+|---|---|
+| 플랫폼 | Railway Cloud |
+| 배포 방식 | GitHub 연동 자동 배포 |
+| 포트 | 8080 |
+| DB | H2 In-Memory |
+| 배포 URL | https://bookmarket-springboot-production.up.railway.app |
+
 ## 👥 팀원 및 역할
 | 이름 | 담당 기능 |
 |---|---|
@@ -26,7 +46,7 @@ https://bookmarket-springboot-production.up.railway.app
 - Google OAuth2
 - Naver OAuth2
 
-## 🚀 실행 방법
+## 🚀 로컬 실행 방법
 1. git clone https://github.com/leolee-08/bookmarket-springboot.git
 2. src/main/resources/application.properties 설정
 3. BookMarketApplication.java 우클릭 → Run
