@@ -11,16 +11,16 @@
     <div class="login-box">
         <h2>📚 북마켓 로그인</h2>
 
-        <!-- OAuth2 소셜 로그인 에러 (우선순위 1순위) -->
-        <div th:if="${param.oauth2Error != null}"
-             th:text="${param.oauth2Error[0]}"
+        <!-- 상세 에러 메시지 (존재하지 않는 회원 / 비밀번호 오류) -->
+        <div th:if="${param.errorMsg != null}"
+             th:text="${param.errorMsg[0]}"
              class="alert-error">
         </div>
 
-        <!-- 자체 로그인 에러 (oauth2Error 없을 때만) -->
-        <div th:if="${param.error != null and param.oauth2Error == null}"
+        <!-- OAuth2 소셜 로그인 에러 -->
+        <div th:if="${param.oauth2Error != null}"
+             th:text="${param.oauth2Error[0]}"
              class="alert-error">
-            이메일 또는 비밀번호가 올바르지 않습니다.
         </div>
 
         <!-- 회원가입 완료 메시지 -->

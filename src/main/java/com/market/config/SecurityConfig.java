@@ -8,7 +8,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.filter.ForwardedHeaderFilter;
+
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Configuration
 @EnableWebSecurity
@@ -17,6 +22,11 @@ public class SecurityConfig {
 
     private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2FailureHandler oAuth2FailureHandler;
+
+    @Bean
+    public ForwardedHeaderFilter forwardedHeaderFilter() {
+        return new ForwardedHeaderFilter();
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(
@@ -34,7 +44,6 @@ public class SecurityConfig {
                                 "/h2-console/**",
                                 "/oauth2/authorization/**",
                                 "/login/oauth2/code/**").permitAll()
-                        // 관리자만
                         .requestMatchers("/admin/**", "/books/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -42,7 +51,18 @@ public class SecurityConfig {
                         .loginPage("/member/login")
                         .loginProcessingUrl("/member/login")
                         .defaultSuccessUrl("/books", true)
-                        .failureUrl("/member/login?error=true")
+                        .failureHandler((request, response, exception) -> {
+                            String errorMsg;
+                            if (exception instanceof UsernameNotFoundException) {
+                                errorMsg = "존재하지 않는 회원입니다.";
+                            } else {
+                                errorMsg = "이메일 또는 비밀번호가 올바르지 않습니다.";
+                            }
+                            String encoded = URLEncoder.encode(
+                                    errorMsg, StandardCharsets.UTF_8);
+                            response.sendRedirect(
+                                    "/member/login?errorMsg=" + encoded);
+                        })
                         .permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
